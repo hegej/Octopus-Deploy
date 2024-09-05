@@ -13,23 +13,24 @@ The file path to the MSI installer for the IIS Rewrite module.
 #>
 
 $registryKeyPath = "HKLM:\SOFTWARE\Microsoft\IIS Extensions\URL Rewrite"
-$installerPath = ".\PATH\TO\rewrite_amd64_en-US.msi" # Update with correct path for installer
+$installerPath = ".\PATH\TO\rewrite_amd64_en-US.msi" # Update with correct path for installer file
+$timeStamp = Get-Date -Format 'dd-MM-yyyy HH:mm:ss'
 
-Write-Output "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Checking IIS Rewrite module installation"
+Write-Output "$($timeStamp) - Checking IIS Rewrite module installation"
 
 try 
 {
     if (Test-Path $registryKeyPath) {
         $version = (Get-ItemProperty -Path $registryKeyPath -Name "Version").Version
-        Write-Output "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - IIS Rewrite module is installed. Version: $version"
+        Write-Output "$($timeStamp) - IIS Rewrite module is installed. Version: $version"
     }
     else {
-        Write-Output "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - IIS Rewrite module is not installed. Proceeding with installation."
+        Write-Output "$($timeStamp) - IIS Rewrite module is not installed. Proceeding with installation."
 
         $process = Start-Process -FilePath "msiexec.exe" -ArgumentList "/i `"$installerPath`" /quiet /qn /norestart" -PassThru -Wait -NoNewWindow
 
         if ($process.ExitCode -eq 0) {
-            Write-Output "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - IIS Rewrite module installed successfully"
+            Write-Output "$($timeStamp) - IIS Rewrite module installed successfully"
         }
         else {
             throw "Installation failed with exit code: $($process.ExitCode)"
@@ -38,6 +39,6 @@ try
 }
 catch 
 {
-    Write-Output "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Error: $_"
+    Write-Output "$($timeStamp) - Error: $_"
     throw $_
 }

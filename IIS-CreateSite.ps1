@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Creates an IIS website for AKVAconnect on Windows 10 IoT Enterprise 2019 using AppCmd.exe.
+Creates an IIS website for AKVAconnect using AppCmd.exe.
 
 .DESCRIPTION
 This script automates the creation and management of an IIS website on systems where the WebAdministration module is not supported. It uses AppCmd.exe to create a website, set properties, and manage its state. The script checks for an existing site, removes it if necessary, and creates a new site with specified bindings and physical path.
